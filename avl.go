@@ -38,35 +38,57 @@ func (t *avl) buscar(x int) bool{
 
 func (t *tnodo) rotarSimple() {
     if t.izq == nil{
-        aux := t
-        t = t.der 
-        aux.der = nil 
-        t.izq = aux
+        t.izq = &tnodo{valor: t.valor}
+        t.valor = t.der.valor 
+        t.der.valor = t.der.der.valor
+        t.der.der = nil
         return
-        }else{
-    aux := t 
-    t = t.izq
-    aux.izq = nil
-    t.der = aux
+    }else{
+    t.der = &tnodo{valor: t.valor}
+    t.valor = t.izq.valor 
+    t.izq.valor = t.izq.izq.valor
+    t.izq.izq = nil
     return
-        }
     }
+}
 
 func (t *tnodo) rotarDoble(){
-    if t.izq == nil{
-        aux := t 
-        aux2 := t.izq
-        t = aux2
-        t.der = aux
-        return
-        }else{
-    aux := t 
-    aux2 := t.der
-    t = aux2
-    t.izq = aux 
-    return
-        }
+    fmt.Println("La funcion rotar doble nunca funciono, asi que la comente noma ya que no servia")
+    fmt.Println("Pero la rotacion simple si funciona :3")
     }
+    
+/*func (t *tnodo) rotarDoble(){
+    fmt.Println("Doblete")
+    if t.izq.altura - t.der.altura == 2{//a la derecha
+        R:= t.izq.der
+        //Q := t.izq
+        auxI := R.izq
+        auxD := R.der
+        P:= t.der 
+        
+        t.valor = R.valor
+        
+        //t.izq = Q 
+        t.der = P
+        t.der.izq = auxD
+        t.izq.der = auxI
+        return
+    }else{ //izquierda
+    R := t.der.izq 
+    //Q := t.der
+    auxD:= R.der 
+    auxI := R.izq 
+    P := t.izq
+    
+    t.valor = R.valor
+    
+    t.izq = P 
+    //t.der = Q 
+    t.izq.der = auxI
+    t.der.izq = auxD
+    return
+    }
+}*/
 
 func (t *tnodo) actualizarAltura(){
     if t == nil{return}
