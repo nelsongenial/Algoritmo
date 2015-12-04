@@ -16,7 +16,8 @@ func nuevo() *dostres {
 	return new(dostres)
 }
 
-func (t *dostres) buscar(x int)bool{
+
+func (t *dostres) buscar(x int) bool{
     aux := t.head
     if aux == nil{return false}
     for aux != nil{
@@ -28,7 +29,7 @@ func (t *dostres) buscar(x int)bool{
                 aux = aux.centro
                 }else{
                     aux = aux.der
-                    }
+                }
             }
         }
     return false
@@ -46,7 +47,6 @@ func (t *dostres) arreglar(){
 
 func (t *tnodo) comprobar(){
     if t == nil{return}
-    fmt.Println("Entro")
     //if t.vaizq != 0 && t.vader != 0{
         if t.izq != nil && t.der == nil{
             if t.izq.vaizq != 0 && t.izq.vader !=0{
@@ -171,7 +171,6 @@ func (t *tnodo) imprimir(){
     t.centro.imprimir()
     t.der.imprimir()
     }
-
 
 func main(){
     fmt.Println("Todo esta bien =D")
