@@ -44,6 +44,28 @@ func (t *dostres) arreglar(){
         }
     }
 
+func (t *tnodo) comprobar(){
+    if t == nil{return}
+    fmt.Println("Entro")
+    //if t.vaizq != 0 && t.vader != 0{
+        if t.izq != nil && t.der == nil{
+            if t.izq.vaizq != 0 && t.izq.vader !=0{
+                    t.der = &tnodo{vaizq: t.izq.vaizq, arriba : t}
+                    t.izq.vader = 0
+            }
+    }
+        if t.der != nil && t.izq == nil{
+            if t.der.vaizq != 0 && t.der.vader !=0{
+                t.izq = &tnodo{vaizq: t.der.vaizq, arriba: t}
+                t.der.vaizq = t.der.vader
+                t.der.vader = 0
+            }
+        }
+    //}
+    t.izq.comprobar()
+    t.der.comprobar()
+    }
+
 func (t *tnodo) insertarArriba(x int){
     if t.arriba == nil{
         t.arriba = &tnodo{vaizq: x, izq: t}
@@ -58,6 +80,9 @@ func (t *tnodo) insertarArriba(x int){
     switch{
         case t.arriba.vader == 0:
             t.arriba.vader = x 
+            t.arriba.centro = &tnodo{vaizq:t.vaizq, arriba: t.arriba}
+            t.vaizq = t.vader
+            t.vader = 0
             return
         case x < t.arriba.vaizq && t.arriba.vader != 0:
             aux := t.arriba.vaizq
@@ -75,6 +100,8 @@ func (t *tnodo) insertarArriba(x int){
     }
 }
 
+
+
 func (t *dostres) insertar(x int) {
     if t.head == nil{
         t.head = &tnodo{vaizq: x}
@@ -90,23 +117,30 @@ func (t *dostres) insertar(x int) {
                         aux.vaizq = x
                         aux.vader = aux2
                         t.arreglar()
+                        t.head.comprobar()
                         return
                     }
                     aux2:= aux.vaizq
                     aux.vaizq = x
                     aux.insertarArriba(aux2)
                     t.arreglar()
+                    t.head.comprobar()
                     return
                 aux = aux.izq
                 }
             case x > aux.vaizq && aux.vader == 0:
-                aux.vader = x
-                t.arreglar()
-                return
+                if aux.der == nil{
+                    aux.vader = x
+                    t.arreglar()
+                    t.head.comprobar()
+                    return
+                }
+                aux = aux.der
             case x > aux.vaizq && x < aux.vader:
                 if aux.centro == nil{
                     aux.insertarArriba(x)
                     t.arreglar()
+                    t.head.comprobar()
                     return
                     }
                 aux = aux.centro
@@ -116,14 +150,17 @@ func (t *dostres) insertar(x int) {
                     aux.vader = x 
                     aux.insertarArriba(aux2)
                     t.arreglar()
+                    t.head.comprobar()
                     return
                     }
                 aux = aux.der
         }
     }
     t.arreglar()
+    t.head.comprobar()
     return
 }
+
 
 func (t *tnodo) imprimir(){
     if t == nil{return}
@@ -134,6 +171,7 @@ func (t *tnodo) imprimir(){
     t.centro.imprimir()
     t.der.imprimir()
     }
+
 
 func main(){
     fmt.Println("Todo esta bien =D")
